@@ -1,0 +1,33 @@
+<MudDialog Options="@_dialogOptions" IsVisible="@_isOpen">
+    <DialogContent>
+        @if (IsEdit)
+        {
+            <h3>Edit employee</h3>
+        }
+        else
+        {
+            <h3>Add new employee</h3>
+        }
+        <EditForm Model="_localEmployee" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator/>
+            <MudTextField Label="Name" @bind-Value="_localEmployee.Name" Required="true" For="@(() => _localEmployee.Name)"/>
+            <MudTextField Label="Email" @bind-Value="_localEmployee.Email" Required="true" For="@(() => _localEmployee.Email)"/>
+            <MudDatePicker Label="Date of Birth" @bind-Date="_localEmployee.DateOfBirth" Required="true" For="@(() => _localEmployee.DateOfBirth)"/>
+            <MudTextField Label="Department" @bind-Value="_localEmployee.Department" Required="true" For="@(() => _localEmployee.Department)"/>
+            <div class="d-flex align-center justify-space-between mt-3">
+                <MudButton Color="Color.Primary" Variant="@Variant.Filled" ButtonType="ButtonType.Submit">Save</MudButton>
+                @if (IsEdit)
+                {
+                    <MudButton Color="Color.Error" Variant="@Variant.Filled" ButtonType="ButtonType.Button" @onclick="Delete">Delete</MudButton>
+                }
+                <MudButton Color="Color.Secondary" Variant="@Variant.Filled" ButtonType="ButtonType.Button" @onclick="Cancel">Cancel</MudButton>
+            </div>
+        </EditForm>
+    </DialogContent>
+</MudDialog>
+
+<style>
+    .mud-dialog-width-sm{
+        width: 500px;
+    }
+</style>

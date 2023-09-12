@@ -1,0 +1,30 @@
+﻿@page "/"
+@using UI.Components
+@using global::Shared.Models.ViewModels
+
+<PageTitle>Employees</PageTitle>
+
+<MudButton Class="mb-3" Color="@Color.Primary" Variant="@Variant.Filled" OnClick="ShowAddEmployeeModal">Add new employee</MudButton>
+<AddEditEmployee @ref="_employeeModal" IsEdit="@_isEdit" Employee="@_selectedEmployee" OnSave="@(e => SaveEmployee(e))"
+                 OnDelete="@(e => DeleteEmployee(e))"/>
+<MudTextField Class="mb-3" DebounceInterval="500" OnDebounceIntervalElapsed="HandleIntervalElapsed" @bind-Value="@_searchTerm"
+              Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search"/>
+
+<MudDataGrid Items="@_employees" SortMode="@SortMode.Single" FilterMode="DataGridFilterMode.Simple" Filterable="true" Groupable="false">
+    <Columns>
+        <PropertyColumn Property="x => x.Name"/>
+        <PropertyColumn Property="x => x.Email"/>
+        <PropertyColumn Property="x => x.DateOfBirthFormatted" Title="Birthday"/>
+        <PropertyColumn Property="x => x.Department"/>
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudStack Row>
+                    <MudButton OnClick="() => ShowEditEmployee(context.Item as EmployeeViewModel)" Size="@Size.Small"
+                               Variant="@Variant.Filled" Color="@Color.Primary">
+                        Edit
+                    </MudButton>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
