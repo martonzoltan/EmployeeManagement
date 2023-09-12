@@ -10,7 +10,10 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(_ => new HttpClient {BaseAddress = new Uri("https://localhost:7123/")});
+var configuration = builder.Configuration;
+var baseApiUrl = configuration["BaseApiUrl"];
+
+builder.Services.AddScoped(_ => new HttpClient {BaseAddress = new Uri(baseApiUrl)});
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddMudServices();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
