@@ -30,9 +30,10 @@ public class EmployeeRepository : IEmployeeRepository
     {
         return await _dbContext.Employees
             .Where(e =>
-                EF.Functions.Like(e.Name, $"%{searchTerm}%") ||
-                EF.Functions.Like(e.Email, $"%{searchTerm}%") ||
-                EF.Functions.Like(e.Department, $"%{searchTerm}%")
+                e.DeletedAt == null &&
+                (EF.Functions.Like(e.Name, $"%{searchTerm}%") ||
+                 EF.Functions.Like(e.Email, $"%{searchTerm}%") ||
+                 EF.Functions.Like(e.Department, $"%{searchTerm}%"))
             )
             .ToListAsync(cancellationToken: cancellationToken);
     }
